@@ -16,11 +16,20 @@ In order to register your services you'll need to add following code to your Sta
             .Add<ServiceC>("key3")
             .Build();
 
-Then you can use it via IServiceByNameFactory interface:
+Then you can resolve the appropriate service in two ways.
+
+1) Injecting the dependency from factory registration.
+
+        services.AddScoped<AccountController>(s => new AccountController(s.GetByName<IService>("key2")));
+
+In this case your client code is clean and has only dependency to `IService` and all the name resolution is performed on the factory expression.
+
+2) Injecting dependency to IServiceByNameFactory interface:
 
         public AccountController(IServiceByNameFactory<IService> factory) {
-            _service = factory.GetByName("key2");
+		    var name = "key2"; // here you can have custom code of name resolution
+            _service = factory.GetByName(name);
         }
-
+In this case your client code depends on both IServiceByNameFactory and IService which can be heplful in case when client has its own logic of name resolution.
 
 
