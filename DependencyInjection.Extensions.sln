@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neleus.DependencyInjection.Extensions", "Neleus.DependencyInjection.Extensions\Neleus.DependencyInjection.Extensions.csproj", "{B9FD58C7-61E0-4883-9FAF-F6FA4A1B6A55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neleus.DependencyInjection.Extensions", "Neleus.DependencyInjection.Extensions\Neleus.DependencyInjection.Extensions.csproj", "{B9FD58C7-61E0-4883-9FAF-F6FA4A1B6A55}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2EC329E2-1171-4326-B9B2-5F49FF1BC8A6}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neleus.DependencyInjection.Extensions.Tests", "Neleus.DependencyInjection.Extensions.Tests\Neleus.DependencyInjection.Extensions.Tests.csproj", "{7E834E01-9B61-4919-AA15-D9C23C05A9F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{B9FD58C7-61E0-4883-9FAF-F6FA4A1B6A55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9FD58C7-61E0-4883-9FAF-F6FA4A1B6A55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9FD58C7-61E0-4883-9FAF-F6FA4A1B6A55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E834E01-9B61-4919-AA15-D9C23C05A9F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E834E01-9B61-4919-AA15-D9C23C05A9F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E834E01-9B61-4919-AA15-D9C23C05A9F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E834E01-9B61-4919-AA15-D9C23C05A9F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F2A82D9C-9D56-4EC8-93DC-0BAF79D1D01A}
 	EndGlobalSection
 EndGlobal
