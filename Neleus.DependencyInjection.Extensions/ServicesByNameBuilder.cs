@@ -13,7 +13,7 @@ namespace Neleus.DependencyInjection.Extensions
         private readonly IServiceCollection _services;
 
         private readonly IDictionary<string, Type> _registrations
-            = new Dictionary<string, Type>();
+            = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
 
         internal ServicesByNameBuilder(IServiceCollection services)
         {
