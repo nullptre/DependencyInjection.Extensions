@@ -12,12 +12,14 @@ namespace Neleus.DependencyInjection.Extensions
     {
         private readonly IServiceCollection _services;
 
-        private readonly IDictionary<string, Type> _registrations
-            = new Dictionary<string, Type>();
+        private readonly IDictionary<string, Type> _registrations;
 
-        internal ServicesByNameBuilder(IServiceCollection services)
+        internal ServicesByNameBuilder(IServiceCollection services, NameBuilderSettings settings)
         {
             _services = services;
+            _registrations = settings.CaseInsensitiveNames
+                ? new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase)
+                : new Dictionary<string, Type>();
         }
 
         /// <summary>
