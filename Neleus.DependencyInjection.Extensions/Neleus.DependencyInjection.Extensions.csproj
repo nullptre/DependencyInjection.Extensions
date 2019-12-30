@@ -7,7 +7,7 @@
     <Company>Neleus</Company>
     <Copyright>Neleus</Copyright>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <PackageProjectUrl>https://github.com/yuriy-nelipovich/DependencyInjection.Extensions</PackageProjectUrl>
     <PackageTags>dependencyinjection di</PackageTags>
   </PropertyGroup>
