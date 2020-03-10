@@ -28,6 +28,14 @@ namespace Neleus.DependencyInjection.Extensions
         }
 
         /// <summary>
+        /// Synonym of <see cref="GetServiceByName{TService}"/>. It is recommended to use <see cref="GetServiceByName{TService}"/> as a better naming convention.
+        /// </summary>
+        public static TService GetByName<TService>(this IServiceProvider provider, string name)
+        {
+            return provider.GetServiceByName<TService>(name);
+        }
+
+        /// <summary>
         /// Provides instances of named registration. It is intended to be used in factory registrations, see example.
         /// </summary>
         /// <code>
@@ -35,7 +43,7 @@ namespace Neleus.DependencyInjection.Extensions
         /// _container.AddTransient&lt;ClientB&gt;(s =&gt; new ClientB(s.GetByName&lt;IEnumerable&lt;int&gt;&gt;(&quot;hashSet&quot;)));
         /// </code>
         /// <returns></returns>
-        public static TService GetByName<TService>(this IServiceProvider provider, string name)
+        public static TService GetServiceByName<TService>(this IServiceProvider provider, string name)
         {
             var factory = provider.GetService<IServiceByNameFactory<TService>>();
             if (factory == null)

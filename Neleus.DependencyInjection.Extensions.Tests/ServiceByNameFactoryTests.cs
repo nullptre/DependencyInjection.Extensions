@@ -51,8 +51,8 @@ namespace Neleus.DependencyInjection.Extensions.Tests
 
             //The named services are resolved by IoC container and the client is abstracted from the
             //dependency resolution
-            _container.AddTransient<ClientA>(s => new ClientA(s.GetByName<IEnumerable<int>>("list")));
-            _container.AddTransient<ClientB>(s => new ClientB(s.GetByName<IEnumerable<int>>("hashSet")));
+            _container.AddTransient<ClientA>(s => new ClientA(s.GetServiceByName<IEnumerable<int>>("list")));
+            _container.AddTransient<ClientB>(s => new ClientB(s.GetServiceByName<IEnumerable<int>>("hashSet")));
 
             var serviceProvider = _container.BuildServiceProvider();
 
