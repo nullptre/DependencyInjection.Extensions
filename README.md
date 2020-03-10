@@ -20,7 +20,7 @@ Then you can resolve the appropriate service in two ways.
 
 1) Injecting the dependency from factory registration.
 
-        services.AddScoped<AccountController>(s => new AccountController(s.GetByName<IService>("key2")));
+        services.AddScoped<AccountController>(s => new AccountController(s.GetServiceByName<IService>("key2")));
 
 In this case your client code is clean and has only dependency to `IService` and all the name resolution is performed on the factory expression.
 
