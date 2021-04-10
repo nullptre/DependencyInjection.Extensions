@@ -1,4 +1,6 @@
-﻿namespace Neleus.DependencyInjection.Extensions
+﻿using System.Collections.Generic;
+
+namespace Neleus.DependencyInjection.Extensions
 {
     /// <summary>
     /// Provides instances of registered services by name
@@ -10,5 +12,6 @@
         /// Provides instance of registered service by name
         /// </summary>
         TService GetByName(string name);
+        ICollection<string> GetNames();
     }
 }
