@@ -114,7 +114,6 @@ namespace Neleus.DependencyInjection.Extensions.Tests
         [TestMethod]
         public void ServiceByNameFactory_GetNames()
         {
-
             _container.AddTransient<List<int>>();
             _container.AddTransient<HashSet<int>>();
 
