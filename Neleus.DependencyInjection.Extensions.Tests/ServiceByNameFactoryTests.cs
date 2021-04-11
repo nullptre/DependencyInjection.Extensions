@@ -109,5 +109,40 @@ namespace Neleus.DependencyInjection.Extensions.Tests
             Assert.AreEqual(typeof(List<int>), list.GetType());
             Assert.AreEqual(typeof(HashSet<int>), hashSet.GetType());
         }
+
+
+        [TestMethod]
+        public void ServiceByNameFactory_GetNames()
+        {
+
+            _container.AddTransient<List<int>>();
+            _container.AddTransient<HashSet<int>>();
+
+            _container.AddByName<IEnumerable<int>>(new NameBuilderSettings()
+            {
+                CaseInsensitiveNames = true
+            })
+                .Add<List<int>>("list")
+                .Add<HashSet<int>>("hashSet")
+                .Build();
+
+            var serviceProvider = _container.BuildServiceProvider();
+
+            // allow to get each type
+            var group = serviceProvider.GetService<IServiceByNameFactory<IEnumerable<int>>>();
+            foreach (var name in group.GetNames())
+            {
+                var instance = group.GetByName(name);
+                switch (name) {
+                    case "list":
+                        Assert.AreEqual(typeof(List<int>), instance.GetType());
+                        break;
+                    case "hashSet":
+                        Assert.AreEqual(typeof(HashSet<int>), instance.GetType());
+                        break;
+                }
+            }
+
+        }
     }
 }
