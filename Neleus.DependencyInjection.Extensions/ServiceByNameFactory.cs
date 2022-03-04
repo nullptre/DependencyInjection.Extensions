@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Microsoft.Extensions.DependencyInjection;
 namespace Neleus.DependencyInjection.Extensions
 {
     internal class ServiceByNameFactory<TService> : IServiceByNameFactory<TService>
@@ -19,6 +19,12 @@ namespace Neleus.DependencyInjection.Extensions
             if (!_registrations.TryGetValue(name, out var implementationType))
                 throw new ArgumentException($"Service name '{name}' is not registered");
             return (TService)_serviceProvider.GetService(implementationType);
+        }
+        public TService GetRequiredByName(string name)
+        {
+            if (!_registrations.TryGetValue(name, out var implementationType))
+                throw new ArgumentException($"Service name '{name}' is not registered");
+            return (TService)_serviceProvider.GetRequiredService(implementationType);
         }
         public ICollection<string> GetNames()
         {

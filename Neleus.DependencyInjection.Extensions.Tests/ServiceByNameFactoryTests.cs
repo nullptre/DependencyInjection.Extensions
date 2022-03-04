@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -142,6 +143,99 @@ namespace Neleus.DependencyInjection.Extensions.Tests
                         break;
                 }
             }
+
+        }
+
+
+        [TestMethod]
+        public void MissingTransientByType()
+        {
+            _container.AddTransient<HashSet<int>>();
+
+            _container.AddByName<IEnumerable<int>>(new NameBuilderSettings()
+            {
+                CaseInsensitiveNames = true
+            })
+            .Add("list", typeof(List<int>))
+            .Add("hashSet", typeof(HashSet<int>))
+            .Build();
+
+            var serviceProvider = _container.BuildServiceProvider();
+
+            var serviceByNameFactory = serviceProvider.GetService<IServiceByNameFactory<IEnumerable<int>>>();
+
+            var commandInstance = serviceByNameFactory.GetByName("list");
+
+            Assert.IsNull(commandInstance);
+        }
+
+        [TestMethod]
+        public void MissingTransientByTypeRequired()
+        {
+            _container.AddTransient<HashSet<int>>();
+
+            _container.AddByName<IEnumerable<int>>(new NameBuilderSettings()
+            {
+                CaseInsensitiveNames = true
+            })
+            .Add("list", typeof(List<int>))
+            .Add("hashSet", typeof(HashSet<int>))
+            .Build();
+
+
+            var serviceProvider = _container.BuildServiceProvider();
+
+            var serviceByNameFactory = serviceProvider.GetService<IServiceByNameFactory<IEnumerable<int>>>();
+
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                var commandInstance = serviceByNameFactory.GetRequiredByName("list");
+            });
+
+        }
+
+        [TestMethod]
+        public void MissingTransientByObject()
+        {
+            _container.AddTransient<HashSet<int>>();
+
+            _container.AddByName<IEnumerable<int>>(new NameBuilderSettings()
+            {
+                CaseInsensitiveNames = true
+            })
+            .Add<List<int>>("list")
+            .Add<HashSet<int>>("hashSet")
+            .Build();
+
+            var serviceProvider = _container.BuildServiceProvider();
+
+            var serviceByNameFactory = serviceProvider.GetService<IServiceByNameFactory<IEnumerable<int>>>();
+
+            var commandInstance = serviceByNameFactory.GetByName("list");
+
+            Assert.IsNull(commandInstance);
+        }
+        [TestMethod]
+        public void MissingTransientByObjectRequired()
+        {
+            _container.AddTransient<HashSet<int>>();
+
+            _container.AddByName<IEnumerable<int>>(new NameBuilderSettings()
+            {
+                CaseInsensitiveNames = true
+            })
+            .Add<List<int>>("list")
+            .Add<HashSet<int>>("hashSet")
+            .Build();
+
+            var serviceProvider = _container.BuildServiceProvider();
+
+            var serviceByNameFactory = serviceProvider.GetService<IServiceByNameFactory<IEnumerable<int>>>();
+
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                var commandInstance = serviceByNameFactory.GetRequiredByName("list");
+            });
 
         }
     }
