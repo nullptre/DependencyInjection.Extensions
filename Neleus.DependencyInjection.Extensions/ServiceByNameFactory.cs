@@ -26,6 +26,7 @@ namespace Neleus.DependencyInjection.Extensions
                 throw new ArgumentException($"Service name '{name}' is not registered");
             return (TService)_serviceProvider.GetRequiredService(implementationType);
         }
+
         public ICollection<string> GetNames()
         {
             return _registrations.Keys;

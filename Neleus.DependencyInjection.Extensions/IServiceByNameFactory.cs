@@ -12,7 +12,12 @@ namespace Neleus.DependencyInjection.Extensions
         /// Provides instance of registered service by name
         /// </summary>
         TService GetByName(string name);
+
         TService GetRequiredByName(string name);
+        /// <summary>
+        /// Gets names of all the registered instances of <typeparamref name="TService"/>
+        /// </summary>
+        /// <returns></returns>
         ICollection<string> GetNames();
     }
 }
