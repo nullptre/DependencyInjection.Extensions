@@ -12,7 +12,12 @@ namespace Neleus.DependencyInjection.Extensions
         /// Provides instance of registered service by name
         /// </summary>
         TService GetByName(string name);
-
+        /// <summary>
+        /// Provide instance of registered service by name.  If type isn't registered an InvalidOperationException will be thrown.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        TService GetRequiredByName(string name);
         /// <summary>
         /// Gets names of all the registered instances of <typeparamref name="TService"/>
         /// </summary>
