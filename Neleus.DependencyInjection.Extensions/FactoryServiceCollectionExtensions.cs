@@ -36,11 +36,11 @@ namespace Neleus.DependencyInjection.Extensions
         }
 
         /// <summary>
-        /// Provides instances of named registration. It is intended to be used in factory registrations, see example.
+        /// Provides instances of named registration or null if named type is not registered in <paramref name="provider"/>. It is intended to be used in factory registrations, see example.
         /// </summary>
         /// <code>
-        /// _container.AddTransient&lt;ClientA&gt;(s =&gt; new ClientA(s.GetByName&lt;IEnumerable&lt;int&gt;&gt;(&quot;list&quot;)));
-        /// _container.AddTransient&lt;ClientB&gt;(s =&gt; new ClientB(s.GetByName&lt;IEnumerable&lt;int&gt;&gt;(&quot;hashSet&quot;)));
+        /// _container.AddTransient&lt;ClientA&gt;(s =&gt; new ClientA(s.GetServiceByName&lt;IEnumerable&lt;int&gt;&gt;(&quot;list&quot;)));
+        /// _container.AddTransient&lt;ClientB&gt;(s =&gt; new ClientB(s.GetServiceByName&lt;IEnumerable&lt;int&gt;&gt;(&quot;hashSet&quot;)));
         /// </code>
         /// <returns></returns>
         public static TService GetServiceByName<TService>(this IServiceProvider provider, string name)
@@ -50,6 +50,23 @@ namespace Neleus.DependencyInjection.Extensions
                 throw new InvalidOperationException($"The factory {typeof(IServiceByNameFactory<TService>)} is not registered. Please use {nameof(FactoryServiceCollectionExtensions)}.{nameof(AddByName)}() to register names.");
 
             return factory.GetByName(name);
+        }
+
+        /// <summary>
+        /// Provides instances of named registration. Throws InvalidOperationException if named type is not registered in <paramref name="provider"/>. It is intended to be used in factory registrations, see example.
+        /// </summary>
+        /// <code>
+        /// _container.AddTransient&lt;ClientA&gt;(s =&gt; new ClientA(s.GetRequiredServiceByName&lt;IEnumerable&lt;int&gt;&gt;(&quot;list&quot;)));
+        /// _container.AddTransient&lt;ClientB&gt;(s =&gt; new ClientB(s.GetRequiredServiceByName&lt;IEnumerable&lt;int&gt;&gt;(&quot;hashSet&quot;)));
+        /// </code>
+        /// <returns></returns>
+        public static TService GetRequiredServiceByName<TService>(this IServiceProvider provider, string name)
+        {
+            var factory = provider.GetService<IServiceByNameFactory<TService>>();
+            if (factory == null)
+                throw new InvalidOperationException($"The factory {typeof(IServiceByNameFactory<TService>)} is not registered. Please use {nameof(FactoryServiceCollectionExtensions)}.{nameof(AddByName)}() to register names.");
+
+            return factory.GetRequiredByName(name);
         }
     }
 }
