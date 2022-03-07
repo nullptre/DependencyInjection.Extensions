@@ -92,9 +92,9 @@ namespace Neleus.DependencyInjection.Extensions.Tests
             _container.AddTransient<HashSet<int>>();
 
             _container.AddByName<IEnumerable<int>>(new NameBuilderSettings()
-                {
-                    CaseInsensitiveNames = true
-                })
+            {
+                CaseInsensitiveNames = true
+            })
                 .Add<List<int>>("list")
                 .Add<HashSet<int>>("hashSet")
                 .Build();
@@ -118,10 +118,7 @@ namespace Neleus.DependencyInjection.Extensions.Tests
             _container.AddTransient<List<int>>();
             _container.AddTransient<HashSet<int>>();
 
-            _container.AddByName<IEnumerable<int>>(new NameBuilderSettings()
-            {
-                CaseInsensitiveNames = true
-            })
+            _container.AddByName<IEnumerable<int>>()
                 .Add<List<int>>("list")
                 .Add<HashSet<int>>("hashSet")
                 .Build();
@@ -145,19 +142,15 @@ namespace Neleus.DependencyInjection.Extensions.Tests
 
         }
 
-
         [TestMethod]
-        public void MissingTransientByType()
+        public void ServiceByNameFactory_ReturnsNullIfMissingRegistrationByType()
         {
             _container.AddTransient<HashSet<int>>();
 
-            _container.AddByName<IEnumerable<int>>(new NameBuilderSettings()
-            {
-                CaseInsensitiveNames = true
-            })
-            .Add("list", typeof(List<int>))
-            .Add("hashSet", typeof(HashSet<int>))
-            .Build();
+            _container.AddByName<IEnumerable<int>>()
+                .Add("list", typeof(List<int>))
+                .Add("hashSet", typeof(HashSet<int>))
+                .Build();
 
             var serviceProvider = _container.BuildServiceProvider();
 
@@ -169,18 +162,14 @@ namespace Neleus.DependencyInjection.Extensions.Tests
         }
 
         [TestMethod]
-        public void MissingTransientByTypeRequired()
+        public void ServiceByNameFactory_ThrowsErrorIfMissingRegistrationByTypeRequired()
         {
             _container.AddTransient<HashSet<int>>();
 
-            _container.AddByName<IEnumerable<int>>(new NameBuilderSettings()
-            {
-                CaseInsensitiveNames = true
-            })
-            .Add("list", typeof(List<int>))
-            .Add("hashSet", typeof(HashSet<int>))
-            .Build();
-
+            _container.AddByName<IEnumerable<int>>()
+                .Add("list", typeof(List<int>))
+                .Add("hashSet", typeof(HashSet<int>))
+                .Build();
 
             var serviceProvider = _container.BuildServiceProvider();
 
@@ -194,17 +183,14 @@ namespace Neleus.DependencyInjection.Extensions.Tests
         }
 
         [TestMethod]
-        public void MissingTransientByObject()
+        public void ServiceByNameFactory_ReturnsNullIfMissingRegistrationByObject()
         {
             _container.AddTransient<HashSet<int>>();
 
-            _container.AddByName<IEnumerable<int>>(new NameBuilderSettings()
-            {
-                CaseInsensitiveNames = true
-            })
-            .Add<List<int>>("list")
-            .Add<HashSet<int>>("hashSet")
-            .Build();
+            _container.AddByName<IEnumerable<int>>()
+                .Add<List<int>>("list")
+                .Add<HashSet<int>>("hashSet")
+                .Build();
 
             var serviceProvider = _container.BuildServiceProvider();
 
@@ -214,18 +200,16 @@ namespace Neleus.DependencyInjection.Extensions.Tests
 
             Assert.IsNull(commandInstance);
         }
+
         [TestMethod]
-        public void MissingTransientByObjectRequired()
+        public void ServiceByNameFactory_ThrowsErrorIfMissingRegistrationByObjectRequired()
         {
             _container.AddTransient<HashSet<int>>();
 
-            _container.AddByName<IEnumerable<int>>(new NameBuilderSettings()
-            {
-                CaseInsensitiveNames = true
-            })
-            .Add<List<int>>("list")
-            .Add<HashSet<int>>("hashSet")
-            .Build();
+            _container.AddByName<IEnumerable<int>>()
+                .Add<List<int>>("list")
+                .Add<HashSet<int>>("hashSet")
+                .Build();
 
             var serviceProvider = _container.BuildServiceProvider();
 
@@ -235,7 +219,6 @@ namespace Neleus.DependencyInjection.Extensions.Tests
             {
                 var commandInstance = serviceByNameFactory.GetRequiredByName("list");
             });
-
         }
     }
 }
