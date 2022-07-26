@@ -1,6 +1,8 @@
 # DependencyInjection.Extensions
 Provides name-based registrations to Microsoft.Extensions.DependencyInjection
 
+[Nuget link](https://www.nuget.org/packages/Neleus.DependencyInjection.Extensions)
+
 See origin https://stackoverflow.com/a/39276306/2528649
 
 ## Usage example
