@@ -12,14 +12,14 @@ namespace Neleus.DependencyInjection.Extensions
     {
         private readonly IServiceCollection _services;
 
-        private readonly IDictionary<string, Type> _registrations;
+        private readonly IDictionary<string, TypeLifetime> _registrations;
 
         internal ServicesByNameBuilder(IServiceCollection services, NameBuilderSettings settings)
         {
             _services = services;
             _registrations = settings.CaseInsensitiveNames
-                ? new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase)
-                : new Dictionary<string, Type>();
+                ? new Dictionary<string, TypeLifetime>(StringComparer.OrdinalIgnoreCase)
+                : new Dictionary<string, TypeLifetime>();
         }
 
         /// <summary>
@@ -29,7 +29,50 @@ namespace Neleus.DependencyInjection.Extensions
         /// </summary>
         public ServicesByNameBuilder<TService> Add(string name, Type implemtnationType)
         {
-            _registrations.Add(name, implemtnationType);
+            var typeLifetime = new TypeLifetime() { Type = implemtnationType, Lifetime = Lifetime.Transient };
+            _registrations.Add(name, typeLifetime);
+            return this;
+        }
+
+        /// <summary>
+        /// Generic version of <see cref="Add"/>
+        /// </summary>
+        public ServicesByNameBuilder<TService> AddScoped<TImplementation>(string name)
+            where TImplementation : TService
+        {
+            return AddScoped(name, typeof(TImplementation));
+        }
+
+        /// <summary>
+        /// Maps name to corresponding implementation.
+        /// Note that this implementation has to be also registered in IoC container so
+        /// that <see cref="IServiceByNameFactory&lt;TService&gt;"/> is be able to resolve it.
+        /// </summary>
+        public ServicesByNameBuilder<TService> AddScoped(string name, Type implemtnationType)
+        {
+            var typeLifetime = new TypeLifetime() { Type = implemtnationType, Lifetime = Lifetime.Scoped };
+            _registrations.Add(name, typeLifetime);
+            return this;
+        }
+
+        /// <summary>
+        /// Generic version of <see cref="Add"/>
+        /// </summary>
+        public ServicesByNameBuilder<TService> AddSingleton<TImplementation>(string name)
+            where TImplementation : TService
+        {
+            return AddSingleton(name, typeof(TImplementation));
+        }
+
+        /// <summary>
+        /// Maps name to corresponding implementation.
+        /// Note that this implementation has to be also registered in IoC container so
+        /// that <see cref="IServiceByNameFactory&lt;TService&gt;"/> is be able to resolve it.
+        /// </summary>
+        public ServicesByNameBuilder<TService> AddSingleton(string name, Type implemtnationType)
+        {
+            var typeLifetime = new TypeLifetime() { Type = implemtnationType, Lifetime = Lifetime.Singleton };
+            _registrations.Add(name, typeLifetime);
             return this;
         }
 
@@ -52,6 +95,18 @@ namespace Neleus.DependencyInjection.Extensions
             var registrations = _registrations;
             //Registrations are shared across all instances
             _services.AddTransient<IServiceByNameFactory<TService>>(s => new ServiceByNameFactory<TService>(s, registrations));
+        }
+        public void BuildScoped()
+        {
+            var registrations = _registrations;
+            //Registrations are shared across all instances
+            _services.AddScoped<IServiceByNameFactory<TService>>(s => new ServiceByNameFactory<TService>(s, registrations));
+        }
+        public void BuildSingleton()
+        {
+            var registrations = _registrations;
+            //Registrations are shared across all instances
+            _services.AddSingleton<IServiceByNameFactory<TService>>(s => new ServiceByNameFactory<TService>(s, registrations));
         }
     }
 }
